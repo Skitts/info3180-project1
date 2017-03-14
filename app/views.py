@@ -61,7 +61,7 @@ def flash_errors(form):
         for error in errors:
             flash (u"Error in the %s field -%s" % (getattr(form, field).label.text,error), 'danger')
     
-@app.route('/profile/', method = ["GET","POST"])
+@app.route('/profiles/', method = ["GET","POST"])
 def listfiles():
     lst= db.session.query(UserProfile).all()
     if request.method=="POST":
