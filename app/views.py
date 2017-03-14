@@ -32,12 +32,12 @@ def home():
 def profile():
     form=InfoForm()
     
-    if request.method=='POST':
-        username=request.form['username']
+    if request.method=='POST' and form.validate_on_submit:
+        
         id=random.randint(100,100000)
         firstname=request.form ['firstname']
         lastname=request.form['lastname']
-        
+        username=request.form['username']
         biography=request.form['biography']
         age=request.form['age']
         gender=request.form['gender']
@@ -45,7 +45,7 @@ def profile():
         image=secure_filename(file.filename)
         file.save(os.path.join('app/static/images', image))
         datejoined = datetime.now().strftime("%a %d %b %Y")
-        profile = UserProfile(username, id, firstname,lastname, biography,age,gender,image,datejoined)
+        profile = UserProfile(id, firstname,lastname, username, age, biography,gender,image,datejoined)
         db.session.add(profile)
         db.session.commit()
         
