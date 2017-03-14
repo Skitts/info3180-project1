@@ -1,0 +1,27 @@
+{% extends "base.html" %} 
+ 
+ 
+
+ 
+{% block main %} 
+ 
+ 
+<div class="profile"> 
+     <img src="{{userlist['image']}}"></img>
+ 
+ 
+     <div class="info"> 
+         <span class="name">{{ userlist.firstname}} {{ userlist.lastname }}</span> <br/> 
+         <span class="cdate"><b>Profile Created On: </b>{{ userlist.datejoined }}</span> <br/><br/> 
+          
+         <b>Username:</b> {{ userlist.userlistname }} <br/> 
+         <b>User ID:</b> {{ userlist.id }} <br/> 
+         <b>Gender:</b> {{ userlist.gender }} <br/> 
+         <b>Age:</b> {{ userlist.age }} <br/><br/> 
+          
+         {{ userlist.biography }} 
+     </div> 
+ </div> 
+
+ 
+ {% endblock %} 

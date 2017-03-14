@@ -43,9 +43,9 @@ def profile():
         gender=request.form['gender']
         file=request.files['image']
         image=secure_filename(file.filename)
-        file.save(os.path.join('app/static/images', image))
+        file.save(os.path.join('app/static/images'))
         datejoined = datetime.now().strftime("%a %d %b %Y")
-        profile = UserProfile(username, id, firstname,lastname, biography,age,gender,image,datejoined)
+        user = UserProfile(username, id, firstname,lastname, biography,age,gender,image,datejoined)
         db.session.add(profile)
         db.session.commit()
         
@@ -57,32 +57,23 @@ def profile():
     
 
 def flash_errors(form):
-    for field, errors in form.errors.items():
+    for field, erros in form.errors.items():
         for error in errors:
-            flash (u"Error in the %s field -%s" % (getattr(form, field).label.text,error), 'danger')
+            flash (u"Error in the %s field -%s" % (getattrib(form, field).label.text,error), 'danger')
     
 @app.route('/profile/', method = ["GET","POST"])
-def listfiles():
+def list()
     lst= db.session.query(UserProfile).all()
     if request.method=="POST":
         mylst=[]
-        for user in lst:
+        for user in mylst:
             mylst.append({'id':user.id, 'username':user.username})
             lst=({'users':mylst})
             return jsonify (lst)
             
-    return render_template('listprofiles.html', lst=lst)
+    return render_template('listprofiles.')
     
-@app.route('/profile/<int:id>', methods=["GET","POST"])
-def profileview(id):
-    ulst = UserProfile.query.filter_by(id=id).first()
-    img = url_for('static', filename='images/' +ulst.image)
-    
-    if request.method=="POST":
-        return jsonify(id=ulst.id, username=ulst.username,image=ulst.image, gender=ulst.gender, age=ulst.age, datejoined=ulst.datejoined)
-    else:
-        userlist = {'id':ulst.id, 'username':ulst.username, 'image':img, 'age':ulst.age, 'firstname':ulst.firstname, 'lastname':ulst.lastname, 'gender':ulst.sex, 'biography':ulst.biography, 'created':ulst.datejoined}
-        return render_template('profileview.html', userlist=userlist)
+
 
 
 @app.route('/about/')
